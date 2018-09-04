@@ -1,0 +1,41 @@
+MPLINK 4.49, Linker
+Linker Map File - Created Mon Sep 03 20:43:31 2018
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000004
+                   .org_2       code   0x000004    program   0x000030
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000033      
+            52 out of 33048 program addresses used, program memory utilization is 0%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                clrZCFlag   0x000024    program     static C:\Users\Danny G\Dropbox\Personal\School\ECNG\Year 3\ECNG - 3006\1stHW.asm
+              clrZCFlagAB   0x00002e    program     static C:\Users\Danny G\Dropbox\Personal\School\ECNG\Year 3\ECNG - 3006\1stHW.asm
+                     main   0x000004    program     static C:\Users\Danny G\Dropbox\Personal\School\ECNG\Year 3\ECNG - 3006\1stHW.asm
+              mulByFourTC   0x00000e    program     static C:\Users\Danny G\Dropbox\Personal\School\ECNG\Year 3\ECNG - 3006\1stHW.asm
+              mulByFourWC   0x00001c    program     static C:\Users\Danny G\Dropbox\Personal\School\ECNG\Year 3\ECNG - 3006\1stHW.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                     main   0x000004    program     static C:\Users\Danny G\Dropbox\Personal\School\ECNG\Year 3\ECNG - 3006\1stHW.asm
+              mulByFourTC   0x00000e    program     static C:\Users\Danny G\Dropbox\Personal\School\ECNG\Year 3\ECNG - 3006\1stHW.asm
+              mulByFourWC   0x00001c    program     static C:\Users\Danny G\Dropbox\Personal\School\ECNG\Year 3\ECNG - 3006\1stHW.asm
+                clrZCFlag   0x000024    program     static C:\Users\Danny G\Dropbox\Personal\School\ECNG\Year 3\ECNG - 3006\1stHW.asm
+              clrZCFlagAB   0x00002e    program     static C:\Users\Danny G\Dropbox\Personal\School\ECNG\Year 3\ECNG - 3006\1stHW.asm
+
+
