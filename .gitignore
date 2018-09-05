@@ -1,1 +1,9 @@
+*.cof
+*.HEX
+*.O
+*.mcp
+*.mcw
+*.err
+*.lst
+*.map
 

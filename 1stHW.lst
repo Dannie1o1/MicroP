@@ -1,4 +1,4 @@
-MPASM  5.51                         1STHW.ASM   9-3-2018  20:43:30         PAGE  1
+MPASM  5.51                         1STHW.ASM   9-4-2018  20:07:02         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -20,71 +20,118 @@ LOC  OBJECT CODE     LINE SOURCE TEXT
                       00005                                                 
   00000080            00006 RegA            EQU                     0x80  
   00000081            00007 RegB            EQU                     0x81
-                      00008 
-000000 EF02 F000      00009                         goto            main
-                      00010 
-000004                00011                         ORG             0x04
-                      00012 
-                      00013 
-000004                00014 main
-000004 0E0A           00015                         movlw           0x0A                            ;Move literal to the WREG
-000006 6F80           00016                         movwf           RegA, 1                         ;Move WREG to RegA
-                      00017                         ;call           mulByFourTC             
-                      00018                         ;call           mulByFourWC
-                      00019                         ;call           clrZCFlag
-000008 EC17 F000      00020                         call            clrZCFlagAB
-00000C 0003           00021                         sleep
-                      00022 
-00000E                00023 mulByFourTC                                                                     ; Routine to multiply Re
+  00000083            00008 num1Hi          EQU                     0x83
+  00000084            00009 num1Lo          EQU                     0x84
+  00000085            00010 num2Hi          EQU                     0x85
+  00000086            00011 num2Lo          EQU                     0x86
+  00000087            00012 resHi           EQU                     0x87
+  00000088            00013 resLo           EQU                     0x88
+                      00014 
+000000 EF02 F000      00015                         goto            main
+                      00016 
+000004                00017                         ORG             0x04
+                      00018 
+                      00019 
+000004                00020 main
+000004 0E0A           00021                         movlw           0x0A                            ;Move literal to the WREG
+000006 6F80           00022                         movwf           RegA, 1                         ;Move WREG to RegA
+                      00023                         ;call           mulByFourTC             
+                      00024                         ;call           mulByFourWC
+                      00025                         ;call           clrZCFlag
+                      00026                         ;call           clrZCFlagAB
+                      00027                         ;call           add16BNum
+000008 EC24 F000      00028                         call            add16BNumWC
+00000C 0003           00029                         sleep
+                      00030 
+00000E                00031 mulByFourTC                                                                     ; Routine to multiply Re
                             gA by four through the carry
-00000E 3780           00024                         rlcf            RegA, 1, 1                      ; Mutiply RegA by two, save the 
+00000E 3580           00032                         rlcf            RegA, W, !A                     ; Mutiply RegA by two, save the 
                             result in RegA
-000010 3780           00025                         rlcf            RegA, 1, 1                      ; Mutiply RegA by two, save the 
+000010 3580           00033                         rlcf            RegA, W, !A                     ; Mutiply RegA by two, save the 
                             result in RegA
-000012 3780           00026                         rlcf            RegA, 1, 1                      ; Mutiply RegA by two, save the 
+000012 3580           00034                         rlcf            RegA, W, !A                     ; Mutiply RegA by two, save the 
                             result in RegA
-000014 3780           00027                         rlcf            RegA, 1, 1                      ; Mutiply RegA by two, save the 
+000014 3580           00035                         rlcf            RegA, W, !A                     ; Mutiply RegA by two, save the 
                             result in RegA
-000016 3780           00028                         rlcf            RegA, 1, 1                      ; Mutiply RegA by two, save the 
+000016 3580           00036                         rlcf            RegA, W, !A                     ; Mutiply RegA by two, save the 
                             result in RegA
-                      00029 
-000018 5180           00030                         movf            RegA, 0, 1                      ; Move RegA to the WREG
-                      00031                         ;movwf          RegB, 1                         ; Move WREG to RegB
-00001A 0012           00032                         return
-                      00033 
-00001C                00034 mulByFourWC                                                                     ; Routine to multiply Re
-                            gA by four through the carry
-00001C 4780           00035                         rlncf           RegA, 1, 1                      ; Mutiply RegA by two, save the 
-                            result in RegA
-00001E 4780           00036                         rlncf           RegA, 1, 1                      ; Mutiply RegA (which is now Reg
-MPASM  5.51                         1STHW.ASM   9-3-2018  20:43:30         PAGE  2
+                      00037 
+000018 5380           00038                         movf            RegA, F, !A                     ; Move RegA to the WREG
+MPASM  5.51                         1STHW.ASM   9-4-2018  20:07:02         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                            A = 2*RegA) by two
-                      00037 
-000020 5180           00038                         movf            RegA, 0, 1                      ; Move RegA to the WREG
-                      00039                         ;movwf          RegB, 1                         ; Move WREG to RegB
-000022 0012           00040                         return  
+                      00039                         ;movwf          RegB, !A                                ; Move WREG to RegB
+00001A 0012           00040                         return
                       00041 
-000024                00042 clrZCFlag                                                                       ;Clear the Carry and Zer
+00001C                00042 mulByFourWC                                                                     ; Routine to multiply Re
+                            gA by four through the carry
+00001C 4780           00043                         rlncf           RegA, 1, 1                      ; Mutiply RegA by two, save the 
+                            result in RegA
+00001E 4780           00044                         rlncf           RegA, 1, 1                      ; Mutiply RegA (which is now Reg
+                            A = 2*RegA) by two
+                      00045 
+000020 5180           00046                         movf            RegA, 0, 1                      ; Move RegA to the WREG
+                      00047                         ;movwf          RegB, 1                         ; Move WREG to RegB
+000022 0012           00048                         return  
+                      00049 
+000024                00050 clrZCFlag                                                                       ;Clear the Carry and Zer
                             o Flags in the STATUS Register in bank 15
-000024 0E0F           00043                         movlw           0x0F                            ;Move 15 into the WREG
-000026 6EE0           00044                         movwf           BSR, 0                          ;Move 15 into BSR
-000028 81D8           00045                         bsf             STATUS, C, 1            ;Clear Carry Flag
-00002A 85D8           00046                         bsf                     STATUS, Z, 1            ;Clear Zero Flag
-00002C 0012           00047                         return
-                      00048 
-00002E                00049 clrZCFlagAB                                                                     ;Clear the Carry and Zer
+000024 0E0F           00051                         movlw           0x0F                            ;Move 15 into the WREG
+000026 6EE0           00052                         movwf           BSR, A                          ;Move 15 into BSR
+000028 81D8           00053                         bsf             STATUS, C, !A           ;Clear Carry Flag
+00002A 85D8           00054                         bsf                     STATUS, Z, !A           ;Clear Zero Flag
+00002C 0012           00055                         return
+                      00056 
+00002E                00057 clrZCFlagAB                                                                     ;Clear the Carry and Zer
                             o Flags in the STATUS Register in bank 15 USING ACCESS BANKING
-00002E 80D8           00050                         bsf             STATUS, C, 0            ;Clear Carry Flag
-000030 84D8           00051                         bsf                     STATUS, Z, 0            ;Clear Zero Flag
-000032 0012           00052                         return  
-                      00053 
-                      00054                         END
-MPASM  5.51                         1STHW.ASM   9-3-2018  20:43:30         PAGE  3
+00002E 80D8           00058                         bsf             STATUS, C, A            ;Clear Carry Flag
+000030 84D8           00059                         bsf                     STATUS, Z, A            ;Clear Zero Flag
+000032 0012           00060                         return  
+                      00061 
+000034                00062 add16BNum                                                                       ;Addition of two 16-bit 
+                            numbers num1 and num2
+000034 5184           00063                         movf            num1Lo, W, !A           ;Move num1Lo into the WREG
+000036 2586           00064                         addwf           num2Lo, W, !A           ;Add num2Lo to WREG store and store in W
+                            REG
+000038 6F88           00065                         movwf           resLo, !A                       ;Move WREG to the ResLo Register
+00003A B0D8           00066                         btfsc           STATUS, C, A            ;Check if the Carry is SET
+00003C 2B83           00067                         incf            num1Hi, F, !A           ; TRUE: Increment the High Byte of Numbe
+                            r
+                      00068                                                                                         ; FALSE: Add the
+                             Hi bytes of the two Numbers
+00003E 5183           00069                         movf            num1Hi, W, !A       ;Move num1Hi into WREG
+000040 2785           00070                         addwf       num2Hi, F, !A               ;Add num2Hi with WREG and store in WREG
+000042 6F87           00071                         movwf           resHi,  !A                      ;Move WREG to resHi
+000044 90D8           00072                         bcf             STATUS, C, A            ;Clear Carry Flag
+000046 0012           00073                         return
+                      00074 
+000048                00075 add16BNumWC                                                                     ;Addition of two 16-bit 
+                            numbers num1 and num2 without the Carry Flag
+000048 90D8           00076                         bcf                     STATUS, C, A            ;Clear Carry Flag
+00004A 5184           00077                         movf            num1Lo, W, !A           ;Move num1Lo into WREG
+00004C 2186           00078                         addwfc          num2Lo, W, !A           ;Add num2Lo to WREG and store in WREG
+00004E 6F88           00079                         movwf           resLo, !A                       ;Move WREG into resLo
+000050 5183           00080                         movf            num1Hi, W, !A           ;Move num1Hi into WREG
+000052 2185           00081                         addwfc          num2Hi, W, !A           ;Add num2Hi to WREG and store the result
+MPASM  5.51                         1STHW.ASM   9-4-2018  20:07:02         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                             in WREG
+000054 0012           00082                         return
+                      00083 
+000056                00084 sub16BNum                                                                       ;Subtraction of two 16-b
+                            it numbers num1 and num2
+                      00085 
+000056 0012           00086                         return
+                      00087 
+                      00088                         END
+MPASM  5.51                         1STHW.ASM   9-4-2018  20:07:02         PAGE  4
 
 
 SYMBOL TABLE
@@ -143,7 +190,7 @@ CCP2IE                            00000000
 CCP2IF                            00000000
 CCP2IP                            00000000
 CCP2M0                            00000000
-MPASM  5.51                         1STHW.ASM   9-3-2018  20:43:30         PAGE  4
+MPASM  5.51                         1STHW.ASM   9-4-2018  20:07:02         PAGE  5
 
 
 SYMBOL TABLE
@@ -202,7 +249,7 @@ EEIF                              00000004
 EEIP                              00000004
 EEPGD                             00000007
 FAST                              00000001
-MPASM  5.51                         1STHW.ASM   9-3-2018  20:43:30         PAGE  5
+MPASM  5.51                         1STHW.ASM   9-4-2018  20:07:02         PAGE  6
 
 
 SYMBOL TABLE
@@ -261,7 +308,7 @@ INTCON1                           00000FF2
 INTCON2                           00000FF1
 INTCON3                           00000FF0
 INTEDG0                           00000006
-MPASM  5.51                         1STHW.ASM   9-3-2018  20:43:30         PAGE  6
+MPASM  5.51                         1STHW.ASM   9-4-2018  20:07:02         PAGE  7
 
 
 SYMBOL TABLE
@@ -320,7 +367,7 @@ LVDIN                             00000005
 LVDIP                             00000002
 LVDL0                             00000000
 LVDL1                             00000001
-MPASM  5.51                         1STHW.ASM   9-3-2018  20:43:30         PAGE  7
+MPASM  5.51                         1STHW.ASM   9-4-2018  20:07:02         PAGE  8
 
 
 SYMBOL TABLE
@@ -379,7 +426,7 @@ PORTB                             00000F81
 PORTC                             00000F82
 PORTD                             00000F83
 PORTE                             00000F84
-MPASM  5.51                         1STHW.ASM   9-3-2018  20:43:30         PAGE  8
+MPASM  5.51                         1STHW.ASM   9-4-2018  20:07:02         PAGE  9
 
 
 SYMBOL TABLE
@@ -438,7 +485,7 @@ RC3                               00000003
 RC4                               00000004
 RC5                               00000005
 RC6                               00000006
-MPASM  5.51                         1STHW.ASM   9-3-2018  20:43:30         PAGE  9
+MPASM  5.51                         1STHW.ASM   9-4-2018  20:07:02         PAGE 10
 
 
 SYMBOL TABLE
@@ -497,7 +544,7 @@ SPEN                              00000007
 SREN                              00000005
 SS                                00000005
 SSPADD                            00000FC8
-MPASM  5.51                         1STHW.ASM   9-3-2018  20:43:30         PAGE 10
+MPASM  5.51                         1STHW.ASM   9-4-2018  20:07:02         PAGE 11
 
 
 SYMBOL TABLE
@@ -556,7 +603,7 @@ T3CCP1                            00000003
 T3CCP2                            00000006
 T3CKPS0                           00000004
 T3CKPS1                           00000005
-MPASM  5.51                         1STHW.ASM   9-3-2018  20:43:30         PAGE 11
+MPASM  5.51                         1STHW.ASM   9-4-2018  20:07:02         PAGE 12
 
 
 SYMBOL TABLE
@@ -615,7 +662,7 @@ TRISA3                            00000003
 TRISA4                            00000004
 TRISA5                            00000005
 TRISA6                            00000006
-MPASM  5.51                         1STHW.ASM   9-3-2018  20:43:30         PAGE 12
+MPASM  5.51                         1STHW.ASM   9-4-2018  20:07:02         PAGE 13
 
 
 SYMBOL TABLE
@@ -674,7 +721,7 @@ WR                                00000001
 WREG                              00000FE8
 WREN                              00000002
 WRERR                             00000003
-MPASM  5.51                         1STHW.ASM   9-3-2018  20:43:30         PAGE 13
+MPASM  5.51                         1STHW.ASM   9-4-2018  20:07:02         PAGE 14
 
 
 SYMBOL TABLE
@@ -733,7 +780,7 @@ _ECIO_OSC                         000000FD
 _ECIO_OSC_1H                      000000FD
 _EC_OSC                           000000FC
 _EC_OSC_1H                        000000FC
-MPASM  5.51                         1STHW.ASM   9-3-2018  20:43:30         PAGE 14
+MPASM  5.51                         1STHW.ASM   9-4-2018  20:07:02         PAGE 15
 
 
 SYMBOL TABLE
@@ -792,28 +839,38 @@ _WRTD_ON_6H                       0000007F
 _XT_OSC                           000000F9
 _XT_OSC_1H                        000000F9
 __18F452                          00000001
-MPASM  5.51                         1STHW.ASM   9-3-2018  20:43:30         PAGE 15
+MPASM  5.51                         1STHW.ASM   9-4-2018  20:07:02         PAGE 16
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
 __DEBUG                           1
+add16BNum                         00000034
+add16BNumWC                       00000048
 clrZCFlag                         00000024
 clrZCFlagAB                       0000002E
 main                              00000004
 mulByFourTC                       0000000E
 mulByFourWC                       0000001C
+num1Hi                            00000083
+num1Lo                            00000084
+num2Hi                            00000085
+num2Lo                            00000086
+resHi                             00000087
+resLo                             00000088
+sub16BNum                         00000056
 
 
 MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
 
-0000 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXX------------
+0000 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXXX XXXXXXXX-------- ---------------- ----------------
 
 All other memory blocks unused.
 
-Program Memory Bytes Used:    52
-Program Memory Bytes Free: 32716
+Program Memory Bytes Used:    88
+Program Memory Bytes Free: 32680
 
 
 Errors   :     0
